@@ -39,6 +39,7 @@ def sign_up(slot):
             stay_bool=y_n_input("Do you still want to sign up? (y/n): ")
         else:
             slot[new_slot]=new_name
+            print("Success:\n{0} is signed up in starting slot #{1}".format(new_name,new_slot))
             return True
 
 def cancel_sign_up(slot):
@@ -54,6 +55,7 @@ def cancel_sign_up(slot):
             stay_bool=y_n_input("Do you still want to cancel a sign up? (y/n): ")
         else:
             slot[new_slot]=None
+            print("Success:\n{0} has been cancelled from starting slot #{1}".format(new_name,new_slot))
             return True
 
 def view_participants(slot):
@@ -75,9 +77,11 @@ def view_participants(slot):
 def save_changes(slot):
     print("\nSave Changes")
     print("============")
-    save=y_n_input("Save your changes to CSV? [y/n]: ")
-    if save:
-        print("hi")#=====================================================================================================================
+    if y_n_input("Save your changes to CSV? [y/n]: "):
+        filename="TournamentTracker.csv" #Could make this a user input in future
+        open(filename,"w").write("Slot,Participant\n")
+        for i in range(1,len(slot)):
+            open(filename,"a").write("{0},{1}\n".format(i,slot[i]))
         return True
     else:
         return False
@@ -87,7 +91,7 @@ def exit(slot, unsaved):
     print("=====")
     if unsaved:
         print("Any unsaved changes will be lost.")
-    y_n_input("Are you sure you want to exit? [y/n]: ")
+    return y_n_input("Are you sure you want to exit? [y/n]: ")
 #-----------------------------------------------------------------------------------------------------------------------------------------------
 #Welcome Screen
 print("Welcome to Tournaments R Us")
@@ -132,7 +136,3 @@ while True:
         if exit(starting_slot,unsaved_changes):
             break
 print("\nGoodbye!")
-#-----------------------------------------------------------------------------------------------------------------------------------------------
-#troubleshooting
-print(starting_slot)
-print(unsaved_changes)
